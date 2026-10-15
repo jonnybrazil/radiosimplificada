@@ -1,0 +1,16 @@
+{
+  "name": "Rádio Simplificada",
+  "description": "Uma rádio baseada em playlists",
+  "accentColor": "#9a9c9e",
+  "banner": "",
+  "maintenance": false,
+  "priorityTrack": null,
+  "sequence": [],
+  "tracks": [],
+  "content": {
+    "message": "Aguarde a mensagem da rádio.",
+    "notices": "Ainda não há avisos ativos.",
+    "sponsors": "Ainda não há patrocínios ativos.",
+    "contact": "Entre em contato com a rádio."
+  }
+}

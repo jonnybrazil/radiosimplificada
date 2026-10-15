@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rádio Simplificada</title>
+  <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+  <main class="radio-layout">
+    <header class="radio-header">
+      <a class="admin-link" href="admin.html">ADMINISTRAÇÃO</a>
+      <div class="masthead"><strong id="radio-name">Rádio Simplificada</strong><span id="radio-description">Uma rádio baseada em playlists</span></div>
+    </header>
+    <section class="hero">
+      <div class="hero-image" id="hero-image"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="live-line"><span id="vu-meter" class="vu-meter" aria-label="Nível do áudio"><i class="vu-bar"></i><i class="vu-bar"></i><i class="vu-bar"></i></span><span>AO VIVO</span></div>
+        <div class="player-row"><button id="play" class="play" type="button" aria-label="Iniciar rádio" aria-pressed="false"><span id="play-glyph">▶</span></button><div class="track-box"><strong id="track">Iniciar rádio</strong></div></div>
+      </div>
+    </section>
+    <nav class="quick-nav" aria-label="Conteúdo da rádio"><button data-panel="message">MENSAGEM</button><button data-panel="notices">NOTÍCIAS</button><button data-panel="sponsors">PATROCÍNIOS</button><button data-panel="contact">CONTATO</button></nav>
+    <section class="panels"><article class="panel" data-content="message"><p id="message">Aguarde a mensagem da rádio.</p></article><article class="panel" data-content="notices"><p id="notices">Ainda não há avisos ativos.</p></article><article class="panel" data-content="sponsors"><p id="sponsors">Ainda não há patrocínios ativos.</p></article><article class="panel" data-content="contact"><p id="contact">Entre em contato com a rádio.</p></article></section>
+    <footer><span id="footer-name">Rádio Simplificada</span><span><a href="admin.html">Administração</a></span></footer>
+  </main>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
