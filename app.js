@@ -5,9 +5,11 @@
   const $ = id => document.getElementById(id);
   async function loadConfig(){
     try {
-      const local = localStorage.getItem('radiosimplificada-config');
-      config = local ? {...fallback,...JSON.parse(local)} : await fetch(API_URL+'?ts='+Date.now()).then(r=>r.json());
-    } catch { config = fallback; }
+      config = await fetch(API_URL+'?ts='+Date.now(), {cache:'no-store'}).then(r=>r.json());
+    } catch {
+      try { config = {...fallback,...JSON.parse(localStorage.getItem('radiosimplificada-config') || '{}')}; }
+      catch { config = fallback; }
+    }
     const radio = config.radio || fallback.radio;
     document.documentElement.style.setProperty('--accent', radio.accentColor || fallback.radio.accentColor);
     $('radio-name').textContent=radio.name||fallback.radio.name; $('footer-name').textContent=radio.name||fallback.radio.name; $('radio-description').textContent=radio.description||fallback.radio.description;
