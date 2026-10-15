@@ -1,5 +1,5 @@
 (() => {
-  const API_URL = 'https://script.google.com/macros/s/AKfycbxj-Gwc6ZLz_bHvt_TLCiKlLEYWbYI0zN34Hz2nyGkk0srKrFP9tu7bUtnS9v-rwLu1/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyGGoePGL0VSMOYFiiHkbhD5jEGPhy1iFoMVPSUbgB49LC15n2dD0G98Z_vEDxnnxcb/exec';
   const fallback = {radio:{name:'Rádio Simplificada',description:'Uma rádio baseada em playlists',accentColor:'#9a9c9e',banner:'',maintenance:false},sequences:{active:'sequence1',sequence1:{tracks:[]}},tracks:[],content:{}};
   let config = fallback, playing = false, index = 0, audio = null, audioContext, analyser, analyserData, vuFrame;
   const $ = id => document.getElementById(id);
