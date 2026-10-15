@@ -7,7 +7,11 @@ function doGet() {
 function doPost(e) {
   try {
     const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-    if (!body || typeof body !== 'object') throw new Error('JSON inválido.');
+    const submittedKey = String(body._adminKey || '');
+    delete body._adminKey;
+    const expectedKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
+    if (!expectedKey) throw new Error('ADMIN_KEY ainda não configurada no Apps Script.');
+    if (!submittedKey || submittedKey !== expectedKey) throw new Error('Chave administrativa inválida.');
     validateConfig_(body);
     DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(body, null, 2));
     return jsonOutput_({ ok: true, data: body });
@@ -22,12 +26,10 @@ function readConfig_() {
 }
 
 function validateConfig_(data) {
-  if (typeof data.name !== 'string') throw new Error('Campo name ausente.');
+  if (!data || typeof data !== 'object') throw new Error('JSON inválido.');
+  if (!data.radio || typeof data.radio.name !== 'string') throw new Error('Campo radio.name ausente.');
   if (!Array.isArray(data.tracks)) throw new Error('Campo tracks deve ser uma lista.');
-  if (!Array.isArray(data.sequence)) throw new Error('Campo sequence deve ser uma lista.');
-  if (data.priorityTrack !== null && data.priorityTrack !== undefined && String(data.priorityTrack).length > 80) {
-    throw new Error('priorityTrack inválido.');
-  }
+  if (!data.sequences || typeof data.sequences !== 'object') throw new Error('Campo sequences ausente.');
 }
 
 function jsonOutput_(data) {
