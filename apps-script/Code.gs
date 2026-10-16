@@ -1,6 +1,6 @@
 const CONFIG_FILE_ID = '1Ug4Zz_1kXFu7Lk9DAZD_BZfqhyIKIfKi';
 const AUTHORIZED_ADMIN_EMAIL = 'jon1444@gmail.com';
-const ADMIN_PAGE_URL = 'https://jonnybrazil.github.io/radiosimplificada/admin.html';
+const ADMIN_PAGE_URL = 'https://8795-im69166xf9e57eet2eldu-5424a055.us1.manus.computer/admin.html';
 
 function doGet(e) {
   const params = (e && e.parameter) || {};
@@ -17,7 +17,7 @@ function adminGateway_() {
   const token = Utilities.getUuid();
   CacheService.getScriptCache().put('admin:' + token, email, 1800);
   const target = ADMIN_PAGE_URL + '?auth=' + encodeURIComponent(token);
-  return HtmlService.createHtmlOutput('<!doctype html><meta charset="utf-8"><title>Autenticando…</title><p>Autenticando…</p><script>window.top.location.replace(\'' + target + '\');</script>');
+  return HtmlService.createHtmlOutput(`<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${target}"><title>Autenticando…</title><p>Autenticando…</p><p><a href="${target}">Clique aqui para abrir o painel</a>, caso o redirecionamento não aconteça.</p>`);
 }
 
 function isValidAdminToken_(token) {
