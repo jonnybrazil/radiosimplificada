@@ -12,7 +12,7 @@
     }
     const radio = config.radio || fallback.radio;
     document.documentElement.style.setProperty('--accent', radio.accentColor || fallback.radio.accentColor);
-    $('radio-name').textContent=radio.name||fallback.radio.name; $('footer-name').textContent=radio.name||fallback.radio.name; $('radio-description').textContent=radio.description||fallback.radio.description;
+    $('radio-name').textContent=radio.name||fallback.radio.name; $('footer-name').textContent=radio.name||fallback.radio.name; $('radio-description').textContent=radio.description||fallback.radio.description; if(radio.favicon) $('radio-favicon').href=radio.favicon;
     const c=config.content||{}; for(const key of ['message','notices','sponsors','contact']) $(key).textContent=c[key]||'';
     if(radio.banner) $('hero-image').style.backgroundImage=`url(${radio.banner})`;
     if(radio.maintenance){ document.body.classList.add('maintenance'); $('track').textContent='Rádio em manutenção'; }
