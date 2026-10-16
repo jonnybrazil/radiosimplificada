@@ -3,20 +3,28 @@
   const fallback = {radio:{name:'Rádio Simplificada',description:'Uma rádio baseada em playlists',accentColor:'#9a9c9e',banner:'',maintenance:false},sequences:{active:'sequence1',sequence1:{tracks:[]}},tracks:[],content:{}};
   let config = fallback, playing = false, index = 0, audio = null, audioContext, analyser, analyserData, vuFrame;
   const $ = id => document.getElementById(id);
-  async function loadConfig(){
-    try {
-      config = await fetch(API_URL+'?ts='+Date.now(), {cache:'no-store'}).then(r=>r.json());
-    } catch {
-      try { config = {...fallback,...JSON.parse(localStorage.getItem('radiosimplificada-config') || '{}')}; }
-      catch { config = fallback; }
-    }
+  function applyConfig(){
     const radio = config.radio || fallback.radio;
     document.documentElement.style.setProperty('--accent', radio.accentColor || fallback.radio.accentColor);
     document.title=radio.name||fallback.radio.name;
     $('radio-name').textContent=radio.name||fallback.radio.name; $('footer-name').textContent=radio.name||fallback.radio.name; $('radio-description').textContent=radio.description||fallback.radio.description; if(radio.favicon) $('radio-favicon').href=radio.favicon;
     const c=config.content||{}; for(const key of ['message','notices','sponsors']) { const el=$(key); if(el) el.textContent=c[key]||''; }
     if(radio.banner) $('hero-image').style.backgroundImage=`url(${radio.banner})`;
-    if(radio.maintenance){ document.body.classList.add('maintenance'); $('track').textContent='Rádio em manutenção'; }
+    document.body.classList.toggle('maintenance',!!radio.maintenance);
+    if(radio.maintenance) $('track').textContent='Rádio em manutenção';
+  }
+  async function loadConfig(){
+    try { config = await fetch(API_URL+'?ts='+Date.now(), {cache:'no-store'}).then(r=>r.json()); }
+    catch { try { config = {...fallback,...JSON.parse(localStorage.getItem('radiosimplificada-config') || '{}')}; } catch { config = fallback; } }
+    applyConfig();
+  }
+  async function refreshConfigBeforePlay(){
+    try {
+      const latest=await fetch(API_URL+'?ts='+Date.now(),{cache:'no-store'}).then(r=>r.json());
+      const changed=JSON.stringify(latest)!==JSON.stringify(config);
+      if(changed){config=latest;applyConfig();}
+      return changed;
+    } catch { return false; }
   }
   function audioUrl(value){ const raw=String(value||'').trim(); if(!raw) return ''; if(/^https?:\/\//i.test(raw)||raw.startsWith('/')||raw.startsWith('audio/')) return raw.split('/').map((part,i)=>i?encodeURIComponent(part):part).join('/'); return 'audio/'+encodeURIComponent(raw); }
   function tracks(){ const byId=Object.fromEntries((config.tracks||[]).map(t=>[String(t.id),t])); const sequences=config.sequences||{}; const active=sequences[sequences.active]||sequences.sequence1||{tracks:[]}; return (active.tracks||[]).map(id=>byId[String(id)]).filter(t=>t&&t.active!==false&&t.url).map(t=>({...t,url:audioUrl(t.url)})); }
@@ -32,7 +40,7 @@
     return new Promise(resolve=>audio.addEventListener('loadedmetadata',resolve,{once:true}));
   }
   async function next(){const list=tracks(); if(!list.length){$('track').textContent='Adicione faixas no admin'; return;} const item=list[index%list.length]; index=(index+1)%list.length; audio.src=item.url; $('track').textContent=item.title||item.id; try{await waitForMetadata();seekRandomStart();await audio.play();}catch(e){playing=false;state();}}
-  async function toggle(){setupAudio(); if(audioContext.state==='suspended') await audioContext.resume(); if(playing){audio.pause();playing=false;state();return;} playing=true;state();await next();}
+  async function toggle(){if(playing){audio.pause();playing=false;state();return;} await refreshConfigBeforePlay(); setupAudio(); if(audioContext.state==='suspended') await audioContext.resume(); playing=true;state();await next();}
   function state(){ $('play-glyph').innerHTML=playing?'<svg viewBox="0 0 64 64"><rect x="17" y="14" width="11" height="36" rx="2"/><rect x="36" y="14" width="11" height="36" rx="2"/></svg>':'▶'; $('play').setAttribute('aria-pressed',String(playing));$('play').setAttribute('aria-label',playing?'Pausar rádio':'Iniciar rádio');$('vu-meter').classList.toggle('is-active',playing);if(playing){cancelAnimationFrame(vuFrame);vuFrame=requestAnimationFrame(drawVu);}else{cancelAnimationFrame(vuFrame);drawVu();}}
   document.querySelectorAll('.quick-nav button').forEach(button=>button.addEventListener('click',()=>{const panel=document.querySelector(`[data-content="${button.dataset.panel}"]`);const open=panel.classList.contains('is-open');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('is-open'));document.querySelectorAll('.quick-nav button').forEach(b=>b.removeAttribute('aria-expanded'));if(!open){panel.classList.add('is-open');button.setAttribute('aria-expanded','true');}}));
   $('play').addEventListener('click',toggle);
