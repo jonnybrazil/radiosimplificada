@@ -12,6 +12,7 @@
     }
     const radio = config.radio || fallback.radio;
     document.documentElement.style.setProperty('--accent', radio.accentColor || fallback.radio.accentColor);
+    document.title=radio.name||fallback.radio.name;
     $('radio-name').textContent=radio.name||fallback.radio.name; $('footer-name').textContent=radio.name||fallback.radio.name; $('radio-description').textContent=radio.description||fallback.radio.description; if(radio.favicon) $('radio-favicon').href=radio.favicon;
     const c=config.content||{}; for(const key of ['message','notices','sponsors']) { const el=$(key); if(el) el.textContent=c[key]||''; }
     if(radio.banner) $('hero-image').style.backgroundImage=`url(${radio.banner})`;
