@@ -1,5 +1,5 @@
 (() => {
-  const API_URL='https://script.google.com/macros/s/AKfycbyGGoePGL0VSMOYFiiHkbhD5jEGPhy1iFoMVPSUbgB49LC15n2dD0G98Z_vEDxnnxcb/exec';
+  const API_URL='https://script.google.com/macros/s/AKfycbz-EMqBpDiXrpzVvxpgauCsl8RyaSMCSwW7ZKnVYuRZZiGRFl_PuHbuDcHXmfgy-a_J/exec';
   const $=id=>document.getElementById(id);
   const empty={radio:{name:'Rádio Simplificada',description:'Uma rádio baseada em playlists',accentColor:'#9a9c9e',banner:'',favicon:'',maintenance:false},tracks:[],sequences:{sequence1:{name:'Programação principal',note:'',tracks:[]},sequence2:{name:'Programação especial',note:'',tracks:[]},sequence3:{name:'Programação alternativa',note:'',tracks:[]},active:'sequence1'},priorityTrack:null,content:{message:'',notices:'',sponsors:'',contact:''},reports:[]};
   let data=empty;
