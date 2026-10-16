@@ -13,7 +13,7 @@
     const radio = config.radio || fallback.radio;
     document.documentElement.style.setProperty('--accent', radio.accentColor || fallback.radio.accentColor);
     $('radio-name').textContent=radio.name||fallback.radio.name; $('footer-name').textContent=radio.name||fallback.radio.name; $('radio-description').textContent=radio.description||fallback.radio.description; if(radio.favicon) $('radio-favicon').href=radio.favicon;
-    const c=config.content||{}; for(const key of ['message','notices','sponsors','contact']) $(key).textContent=c[key]||'';
+    const c=config.content||{}; for(const key of ['message','notices','sponsors']) { const el=$(key); if(el) el.textContent=c[key]||''; }
     if(radio.banner) $('hero-image').style.backgroundImage=`url(${radio.banner})`;
     if(radio.maintenance){ document.body.classList.add('maintenance'); $('track').textContent='Rádio em manutenção'; }
   }
@@ -25,5 +25,7 @@
   async function toggle(){setupAudio(); if(audioContext.state==='suspended') await audioContext.resume(); if(playing){audio.pause();playing=false;state();return;} playing=true;state();await next();}
   function state(){ $('play-glyph').innerHTML=playing?'<svg viewBox="0 0 64 64"><rect x="17" y="14" width="11" height="36" rx="2"/><rect x="36" y="14" width="11" height="36" rx="2"/></svg>':'▶'; $('play').setAttribute('aria-pressed',String(playing));$('play').setAttribute('aria-label',playing?'Pausar rádio':'Iniciar rádio');$('vu-meter').classList.toggle('is-active',playing);if(playing){cancelAnimationFrame(vuFrame);vuFrame=requestAnimationFrame(drawVu);}else{cancelAnimationFrame(vuFrame);drawVu();}}
   document.querySelectorAll('.quick-nav button').forEach(button=>button.addEventListener('click',()=>{const panel=document.querySelector(`[data-content="${button.dataset.panel}"]`);const open=panel.classList.contains('is-open');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('is-open'));document.querySelectorAll('.quick-nav button').forEach(b=>b.removeAttribute('aria-expanded'));if(!open){panel.classList.add('is-open');button.setAttribute('aria-expanded','true');}}));
-  $('play').addEventListener('click',toggle); loadConfig();
+  $('play').addEventListener('click',toggle);
+  $('contact-form').addEventListener('submit',async event=>{event.preventDefault();const form=event.currentTarget;const status=$('contact-status');const button=form.querySelector('button');button.disabled=true;status.textContent='Enviando...';const values=Object.fromEntries(new FormData(form).entries());try{const response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'contact',contact:{...values,createdAt:new Date().toISOString()}})});const result=await response.json();if(!result.ok)throw new Error(result.error||'Não foi possível enviar.');form.reset();status.textContent='Mensagem enviada. Obrigado pelo contato.';}catch(error){status.textContent='Não foi possível enviar agora. Tente novamente.';}finally{button.disabled=false;}});
+  loadConfig();
 })();
