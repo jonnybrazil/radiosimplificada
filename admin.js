@@ -1,5 +1,5 @@
 (() => {
-  const API_URL='https://script.google.com/macros/s/AKfycbz-EMqBpDiXrpzVvxpgauCsl8RyaSMCSwW7ZKnVYuRZZiGRFl_PuHbuDcHXmfgy-a_J/exec';
+  const API_URL='https://script.google.com/macros/s/AKfycbxLr0rbkMNDIGzAGIWHRjNPTf22fdei4gjzNL7xlGtmy_Ya58n-e4ibU5fTB2r-UZ5Z/exec';
   const AUTH_KEY='radiosimplificada-admin-token';
   const tokenFromUrl=new URLSearchParams(location.search).get('auth');
   if(tokenFromUrl){sessionStorage.setItem(AUTH_KEY,tokenFromUrl);history.replaceState(null,'',location.pathname+location.hash);}
