@@ -1,6 +1,6 @@
 const CONFIG_FILE_ID = '1Ug4Zz_1kXFu7Lk9DAZD_BZfqhyIKIfKi';
 const AUTHORIZED_ADMIN_EMAIL = 'jon1444@gmail.com';
-const ADMIN_PAGE_URL = 'https://8795-im69166xf9e57eet2eldu-5424a055.us1.manus.computer/admin.html';
+const ADMIN_PAGE_URL = 'https://jonnybrazil.github.io/radiosimplificada/admin.html';
 
 function doGet(e) {
   const params = (e && e.parameter) || {};
