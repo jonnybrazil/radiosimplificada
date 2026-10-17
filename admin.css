@@ -21,7 +21,7 @@
 }
 
 /* Fallback para celulares que reportam viewport ampliada no modo desktop. */
-@media (max-width:1200px) and (hover:none){
+@media (pointer:coarse){
   html,body{width:100%;min-width:0;overflow-x:hidden;}
   .admin-shell{display:block;width:100%;min-width:0;}
   .admin-sidebar{width:100%;padding:14px 10px 10px;}
