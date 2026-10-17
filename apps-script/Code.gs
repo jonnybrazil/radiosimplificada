@@ -6,7 +6,9 @@ function doGet(e) {
   const params = (e && e.parameter) || {};
   if (params.admin === '1') return adminGateway_();
   if (params.adminToken && !isValidAdminToken_(params.adminToken)) return jsonOutput_({ ok: false, error: 'Sessão administrativa expirada.' });
-  return jsonOutput_(readConfig_());
+  const config = readConfig_();
+  if (params.meta === '1') return jsonOutput_({ version: Number(config.version) || 1 });
+  return jsonOutput_(config);
 }
 
 function adminGateway_() {
@@ -33,6 +35,8 @@ function doPost(e) {
     delete body._adminToken;
     if (!isValidAdminToken_(submittedToken)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
     validateConfig_(body);
+    const current = readConfig_();
+    body.version = (Number(current.version) || 0) + 1;
     DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(body, null, 2));
     return jsonOutput_({ ok: true, data: body });
   } catch (error) {
@@ -53,6 +57,7 @@ function saveContact_(contact) {
   const messages = Array.isArray(config.contactMessages) ? config.contactMessages : [];
   messages.push(clean);
   config.contactMessages = messages.slice(-500);
+  config.version = (Number(config.version) || 0) + 1;
   DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
   return jsonOutput_({ ok: true });
 }
