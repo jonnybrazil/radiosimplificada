@@ -7,3 +7,8 @@
   .admin-link{left:16px;top:0;font-size:9px;}
   .radio-header{height:88px;}
 }
+
+/* Alguns navegadores móveis mantêm viewport de desktop quando "site para computador" está ativo. */
+@media (max-width:1200px) and (hover:none){
+  .admin-link{left:16px;right:16px;top:0;display:block;white-space:nowrap;}
+}

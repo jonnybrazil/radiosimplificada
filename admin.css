@@ -19,3 +19,23 @@
   .editor-card{width:100%;max-width:none;padding:18px;}
   .metric-grid article{padding:18px;}
 }
+
+/* Fallback para celulares que reportam viewport ampliada no modo desktop. */
+@media (max-width:1200px) and (hover:none){
+  html,body{width:100%;min-width:0;overflow-x:hidden;}
+  .admin-shell{display:block;width:100%;min-width:0;}
+  .admin-sidebar{width:100%;padding:14px 10px 10px;}
+  .admin-brand{padding:0 8px 13px;font-size:15px;}
+  .side-nav{display:flex;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+  .side-nav::-webkit-scrollbar{display:none;}
+  .side-nav a{flex:0 0 auto;white-space:nowrap;padding:9px 10px;font-size:11px;}
+  .side-bottom{display:none;}
+  .admin-main{width:100%;min-width:0;}
+  .admin-topbar{width:100%;height:52px;padding:0 14px;font-size:9px;}
+  .admin-content{width:100%;max-width:none;margin:0;padding:24px 14px 42px;}
+  .admin-page h1{font-size:clamp(2rem,11vw,2.8rem);overflow-wrap:anywhere;}
+  .intro{max-width:none;font-size:13px;}
+  .editor-card{width:100%;max-width:none;padding:18px;}
+  .metric-grid,.home-grid,.studio-card,.form-grid{grid-template-columns:1fr;}
+  .studio-help{border-left:0;border-top:1px solid var(--admin-line);padding:22px 0 0;}
+}
