@@ -1,5 +1,5 @@
 (() => {
-  const API_URL='https://script.google.com/macros/s/AKfycbzi52V5K5983y1vA4jPE-meTYTA1pUAVTTMu6cju_NmooCaYUojo26eDoPbNOWE7uaT/exec';
+  const API_URL='https://script.google.com/macros/s/AKfycbxZU_5GPav_uqGT6zckjMDMBInEPJhi116RaFm962PSyjuVPbVp_shgF3L9pQVrUOAT/exec';
   const AUTH_KEY='radiosimplificada-admin-token';
   const PUBLIC_PAGE_URL='https://jonnybrazil.github.io/radiosimplificada/index.html';
   const tokenFromUrl=new URLSearchParams(location.search).get('auth');
