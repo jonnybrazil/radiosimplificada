@@ -49,20 +49,48 @@ function doPost(e) {
 
 function saveEvent_(event) {
   const type = String(event.type || '').trim();
-  if (type !== 'visit' && type !== 'play') throw new Error('Evento inválido.');
-  const now = new Date();
-  const day = Utilities.formatDate(now, Session.getScriptTimeZone() || 'America/Sao_Paulo', 'yyyy-MM-dd');
-  const config = readConfig_();
-  const reports = Array.isArray(config.reports) ? config.reports : [];
-  let row = reports.find(item => item.date === day);
-  if (!row) { row = {date: day, visits: 0, plays: 0}; reports.push(row); }
-  if (type === 'visit') row.visits = Number(row.visits || 0) + 1;
-  if (type === 'play') row.plays = Number(row.plays || 0) + 1;
-  row.updatedAt = now.toISOString();
-  config.reports = reports.sort((a, b) => String(a.date).localeCompare(String(b.date))).slice(-90);
-  config.version = Number(config.version) || 1;
-  DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
-  return jsonOutput_({ok: true});
+  const sessionId = String(event.sessionId || '').trim().slice(0, 80);
+  if (!sessionId || !['visit', 'play', 'heartbeat', 'stop'].includes(type)) throw new Error('Evento inválido.');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5000);
+  try {
+    const now = new Date();
+    const zone = Session.getScriptTimeZone() || 'America/Sao_Paulo';
+    const day = Utilities.formatDate(now, zone, 'yyyy-MM-dd');
+    const config = readConfig_();
+    const reports = Array.isArray(config.reports) ? config.reports : [];
+    let row = reports.find(item => item.date === day);
+    if (!row) { row = {date: day, accesses: 0, peakListeners: 0, listeningMinutes: 0, plays: 0}; reports.push(row); }
+    row.accesses = Number(row.accesses || row.visits || 0);
+    row.peakListeners = Number(row.peakListeners || 0);
+    row.listeningMinutes = Number(row.listeningMinutes || 0);
+    row.plays = Number(row.plays || 0);
+    const active = getActiveListeners_();
+    const nowMs = Date.now();
+    Object.keys(active).forEach(id => { if (nowMs - Number(active[id]) > 90000) delete active[id]; });
+    if (type === 'visit') row.accesses += 1;
+    if (type === 'play') { row.plays += 1; active[sessionId] = nowMs; }
+    if (type === 'heartbeat') { row.listeningMinutes += 1; active[sessionId] = nowMs; }
+    if (type === 'stop') delete active[sessionId];
+    row.peakListeners = Math.max(row.peakListeners, Object.keys(active).length);
+    row.updatedAt = now.toISOString();
+    config.reports = reports.sort((a, b) => String(a.date).localeCompare(String(b.date))).slice(-90);
+    config.version = Number(config.version) || 1;
+    saveActiveListeners_(active);
+    DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
+    return jsonOutput_({ok: true, peakListeners: row.peakListeners});
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getActiveListeners_() {
+  try { return JSON.parse(PropertiesService.getScriptProperties().getProperty('activeListeners') || '{}'); }
+  catch (_) { return {}; }
+}
+
+function saveActiveListeners_(active) {
+  PropertiesService.getScriptProperties().setProperty('activeListeners', JSON.stringify(active));
 }
 
 function saveContact_(contact) {
