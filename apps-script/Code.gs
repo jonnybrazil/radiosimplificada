@@ -19,7 +19,7 @@ function adminGateway_() {
   const token = Utilities.getUuid();
   CacheService.getScriptCache().put('admin:' + token, email, 1800);
   const target = ADMIN_PAGE_URL + '?auth=' + encodeURIComponent(token);
-  return HtmlService.createHtmlOutput(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Autenticando…</title><script>window.top.location.replace(${JSON.stringify(target)});</script><p>Autenticando…</p><p><a href="${target}">Clique aqui para abrir o painel</a>, caso o redirecionamento não aconteça.</p>`);
+  return HtmlService.createHtmlOutput(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Abrir administração</title><style>body{font:16px Arial,sans-serif;margin:0;padding:28px;display:grid;place-items:center;min-height:100vh;background:#fff;color:#222;text-align:center}main{max-width:420px}a{display:inline-block;margin-top:18px;padding:14px 22px;border-radius:6px;background:#4b4d50;color:#fff;text-decoration:none;font-weight:700}p{line-height:1.5;color:#666}</style><main><h1>Abrir administração</h1><p>Toque no botão abaixo para abrir o painel em uma página própria.</p><a href="${target}" target="_top" rel="noopener">Abrir painel</a></main>`);
 }
 
 function isValidAdminToken_(token) {
