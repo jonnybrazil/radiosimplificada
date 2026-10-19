@@ -1,9 +1,9 @@
 
 /* Modo Em manutenção */
 .maintenance-page{display:none;min-height:360px;padding:110px 8%;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#fff}
-.maintenance-kicker{margin:0 0 16px;color:var(--accent);font-size:10px;letter-spacing:.14em;font-weight:700}
-.maintenance-page h1{margin:0;color:#151515;font:400 42px/1.1 "Encode Sans",Arial,sans-serif}
-.maintenance-page>p:last-child{margin:16px 0 0;color:var(--ink);font-size:15px}
+.maintenance-page h1{max-width:620px;margin:0 0 16px;color:#171818;font:400 clamp(2.5rem,5vw,4.4rem)/1.05 "Encode Sans",Arial,sans-serif;letter-spacing:-.06em}
+.maintenance-page h1 em{font-style:normal;color:var(--accent)}
+.maintenance-page>p:last-child{max-width:620px;margin:0;color:var(--muted);font:14px/1.65 "Lato",Arial,sans-serif}
 body.maintenance .radio-header,body.maintenance .hero,body.maintenance .quick-nav,body.maintenance .panels{display:none}
 body.maintenance .maintenance-page{display:flex}
-@media(max-width:700px){.maintenance-page{min-height:430px;padding:90px 24px}.maintenance-page h1{font-size:32px}.maintenance-page>p:last-child{font-size:14px}}
+@media(max-width:700px){.maintenance-page{min-height:430px;padding:90px 24px}.maintenance-page h1{font-size:2.8rem}.maintenance-page>p:last-child{font-size:13px}}
