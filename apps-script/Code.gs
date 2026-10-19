@@ -30,18 +30,39 @@ function doPost(e) {
   try {
     const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (body.action === 'contact') return saveContact_(body.contact || {});
+    if (body.action === 'event') return saveEvent_(body.event || {});
     const submittedToken = String(body._adminToken || '');
     if (body.action === 'logout') { if (isValidAdminToken_(submittedToken)) CacheService.getScriptCache().remove('admin:' + submittedToken); return jsonOutput_({ ok: true }); }
     delete body._adminToken;
     if (!isValidAdminToken_(submittedToken)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
     validateConfig_(body);
     const current = readConfig_();
+    body.reports = Array.isArray(current.reports) ? current.reports : [];
+    body.contactMessages = Array.isArray(current.contactMessages) ? current.contactMessages : [];
     body.version = (Number(current.version) || 0) + 1;
     DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(body, null, 2));
     return jsonOutput_({ ok: true, data: body });
   } catch (error) {
     return jsonOutput_({ ok: false, error: String(error.message || error) });
   }
+}
+
+function saveEvent_(event) {
+  const type = String(event.type || '').trim();
+  if (type !== 'visit' && type !== 'play') throw new Error('Evento inválido.');
+  const now = new Date();
+  const day = Utilities.formatDate(now, Session.getScriptTimeZone() || 'America/Sao_Paulo', 'yyyy-MM-dd');
+  const config = readConfig_();
+  const reports = Array.isArray(config.reports) ? config.reports : [];
+  let row = reports.find(item => item.date === day);
+  if (!row) { row = {date: day, visits: 0, plays: 0}; reports.push(row); }
+  if (type === 'visit') row.visits = Number(row.visits || 0) + 1;
+  if (type === 'play') row.plays = Number(row.plays || 0) + 1;
+  row.updatedAt = now.toISOString();
+  config.reports = reports.sort((a, b) => String(a.date).localeCompare(String(b.date))).slice(-90);
+  config.version = Number(config.version) || 1;
+  DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
+  return jsonOutput_({ok: true});
 }
 
 function saveContact_(contact) {
