@@ -6,4 +6,7 @@
 .maintenance-page>p:last-child{max-width:620px;margin:0;color:var(--muted);font:14px/1.65 "Lato",Arial,sans-serif}
 body.maintenance .radio-header,body.maintenance .hero,body.maintenance .quick-nav,body.maintenance .panels{display:none}
 body.maintenance .maintenance-page{display:flex}
+body.maintenance .radio-layout{min-height:100vh;display:flex;flex-direction:column}
+body.maintenance .maintenance-page{flex:1;width:100%}
+body.maintenance footer{flex:0 0 90px}
 @media(max-width:700px){.maintenance-page{min-height:430px;padding:90px 24px}.maintenance-page h1{font-size:2.8rem}.maintenance-page>p:last-child{font-size:13px}}
