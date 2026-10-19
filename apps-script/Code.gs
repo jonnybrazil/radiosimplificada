@@ -19,7 +19,7 @@ function adminGateway_() {
   const token = Utilities.getUuid();
   CacheService.getScriptCache().put('admin:' + token, email, 1800);
   const target = ADMIN_PAGE_URL + '?auth=' + encodeURIComponent(token);
-  return HtmlService.createHtmlOutput(`<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${target}"><title>Autenticando…</title><p>Autenticando…</p><p><a href="${target}">Clique aqui para abrir o painel</a>, caso o redirecionamento não aconteça.</p>`);
+  return HtmlService.createHtmlOutput(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Autenticando…</title><script>window.top.location.replace(${JSON.stringify(target)});</script><p>Autenticando…</p><p><a href="${target}">Clique aqui para abrir o painel</a>, caso o redirecionamento não aconteça.</p>`);
 }
 
 function isValidAdminToken_(token) {
