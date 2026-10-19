@@ -55,7 +55,7 @@ function saveEvent_(event) {
   lock.waitLock(5000);
   try {
     const now = new Date();
-    const zone = Session.getScriptTimeZone() || 'America/Sao_Paulo';
+    const zone = 'America/Sao_Paulo';
     const day = Utilities.formatDate(now, zone, 'yyyy-MM-dd');
     const config = readConfig_();
     const reports = Array.isArray(config.reports) ? config.reports : [];
