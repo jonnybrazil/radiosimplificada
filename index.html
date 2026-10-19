@@ -4,6 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Rádio Simplificada</title>
   <link id="radio-favicon" rel="icon" href="data:,">
+  <style>html.js-loading body{visibility:hidden}</style><script>document.documentElement.classList.add('js-loading');setTimeout(()=>document.documentElement.classList.remove('js-loading'),4000)</script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@400;500;600;700&family=Lato:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
@@ -28,6 +29,6 @@
     <section class="panels"><article class="panel" data-content="message"><p id="message">Aguarde a mensagem da rádio.</p></article><article class="panel" data-content="notices"><p id="notices">Ainda não há avisos ativos.</p></article><article class="panel" data-content="sponsors"><p id="sponsors">Ainda não há patrocínios ativos.</p></article><article class="panel" data-content="contact"><form id="contact-form" class="guestbook-form"><div class="guestbook-fields"><label>Nome<input name="name" type="text" maxlength="80" autocomplete="name" required></label><label>Cidade<input name="city" type="text" maxlength="80" autocomplete="address-level2" required></label><label>Estado<select name="state" autocomplete="address-level1" required><option value="">Selecione</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select></label></div><label>Mensagem<textarea name="message" rows="5" maxlength="500" required></textarea></label><input class="guestbook-trap" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"><button type="submit">Enviar mensagem</button><p id="contact-status" class="guestbook-status" role="status" aria-live="polite"></p></form></article></section>
     <footer><span>© 2026 <span id="footer-name">Radiosimplificada</span>&nbsp;|&nbsp;<a href="admin.html">Admin</a></span></footer>
   </main>
-  <script src="app.js?v=30"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>
