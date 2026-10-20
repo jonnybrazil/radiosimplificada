@@ -58,3 +58,9 @@
 .mobile-device .studio-help{border-left:0;border-top:1px solid var(--admin-line);padding:22px 0 0;}
 
 .report-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:920px;margin-bottom:16px}.report-table-wrap{max-width:920px;overflow-x:auto;border:1px solid var(--admin-line);background:#fff}.report-table{width:100%;border-collapse:collapse;font-size:13px}.report-table th,.report-table td{padding:13px 16px;border-bottom:1px solid var(--admin-line);text-align:left}.report-table th{color:var(--admin-muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.report-table tr:last-child td{border-bottom:0}@media (max-width:800px){.report-summary{grid-template-columns:1fr;}.report-table{min-width:420px;}}
+
+.menu-settings{grid-column:1/-1;border-top:1px solid var(--admin-line);padding-top:24px;margin-top:8px}
+.menu-settings h2{margin:0 0 6px;font-size:21px}
+.menu-settings>.form-grid{margin-top:18px;align-items:end}
+.menu-settings .check{align-self:end;padding-bottom:17px}
+@media(max-width:800px){.menu-settings{padding-top:20px}.menu-settings>.form-grid{margin-top:12px}}
