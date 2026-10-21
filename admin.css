@@ -76,3 +76,7 @@
 .guestbook-toolbar .secondary:hover{border-color:var(--accent);color:var(--accent)}
 .guestbook-toolbar .secondary:disabled{opacity:.55;cursor:wait}
 @media(max-width:700px){.guestbook-toolbar{align-items:flex-start;flex-direction:column;gap:10px}.guestbook-toolbar .secondary{width:100%}}
+.backup-card{display:grid;gap:14px}
+.backup-card h2{margin:10px 0 0;font-size:20px}
+.backup-card input[type=file]{display:block;margin-top:8px;width:100%;padding:10px;border:1px solid var(--admin-line);background:#fff;color:var(--admin-ink)}
+.backup-preview{padding:14px;background:#f4f4f4;border-left:3px solid var(--accent);color:var(--admin-ink);font-size:13px;line-height:1.5}

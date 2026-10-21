@@ -33,6 +33,7 @@ function doPost(e) {
     if (body.action === 'event') return saveEvent_(body.event || {});
     const submittedToken = String(body._adminToken || '');
     if (body.action === 'logout') { if (isValidAdminToken_(submittedToken)) CacheService.getScriptCache().remove('admin:' + submittedToken); return jsonOutput_({ ok: true }); }
+    if (body.action === 'restore') return restoreConfig_(body.backup || {}, submittedToken);
     delete body._adminToken;
     if (!isValidAdminToken_(submittedToken)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
     validateConfig_(body);
@@ -45,6 +46,17 @@ function doPost(e) {
   } catch (error) {
     return jsonOutput_({ ok: false, error: String(error.message || error) });
   }
+  }
+
+function restoreConfig_(backup, token) {
+  if (!isValidAdminToken_(token)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
+  validateConfig_(backup);
+  const current = readConfig_();
+  backup.reports = Array.isArray(current.reports) ? current.reports : [];
+  backup.contactMessages = Array.isArray(current.contactMessages) ? current.contactMessages : [];
+  backup.version = (Number(current.version) || 0) + 1;
+  DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(backup, null, 2));
+  return jsonOutput_({ ok: true, data: backup });
 }
 
 function saveEvent_(event) {
