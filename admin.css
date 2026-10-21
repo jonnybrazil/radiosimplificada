@@ -64,3 +64,10 @@
 .menu-settings>.form-grid{margin-top:18px;align-items:end}
 .menu-settings .check{align-self:end;padding-bottom:17px}
 @media(max-width:800px){.menu-settings{padding-top:20px}.menu-settings>.form-grid{margin-top:12px}}
+.guestbook-admin-list{display:grid;gap:14px}
+.guestbook-admin-card{padding:20px 22px;border:1px solid var(--admin-line);background:#fff}
+.guestbook-admin-meta{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--admin-line);padding-bottom:11px}
+.guestbook-admin-meta strong{color:var(--admin-ink);font-size:16px}
+.guestbook-admin-meta span,.guestbook-admin-meta time{color:var(--admin-muted);font-size:12px}
+.guestbook-admin-card p{margin:14px 0 0;color:var(--admin-ink);font-size:15px;line-height:1.65;white-space:pre-line}
+@media(max-width:700px){.guestbook-admin-card{padding:16px}.guestbook-admin-meta{gap:7px}}
