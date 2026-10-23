@@ -34,6 +34,7 @@ function doPost(e) {
     const submittedToken = String(body._adminToken || '');
     if (body.action === 'logout') { if (isValidAdminToken_(submittedToken)) CacheService.getScriptCache().remove('admin:' + submittedToken); return jsonOutput_({ ok: true }); }
     if (body.action === 'restore') return restoreConfig_(body.backup || {}, submittedToken);
+    if (body.action === 'clearReports') return clearReports_(body.fields || [], submittedToken);
     delete body._adminToken;
     if (!isValidAdminToken_(submittedToken)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
     validateConfig_(body);
@@ -57,6 +58,26 @@ function restoreConfig_(backup, token) {
   backup.version = (Number(current.version) || 0) + 1;
   DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(backup, null, 2));
   return jsonOutput_({ ok: true, data: backup });
+}
+
+function clearReports_(fields, token) {
+  if (!isValidAdminToken_(token)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
+  const allowed = ['accesses', 'plays', 'listeningMinutes', 'peakListeners'];
+  const selected = [...new Set((Array.isArray(fields) ? fields : []).filter(field => allowed.includes(field)))];
+  if (!selected.length) throw new Error('Selecione pelo menos um item para apagar.');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5000);
+  try {
+    const config = readConfig_();
+    const reports = Array.isArray(config.reports) ? config.reports : [];
+    reports.forEach(row => selected.forEach(field => { row[field] = 0; }));
+    config.reports = reports;
+    config.version = (Number(config.version) || 0) + 1;
+    DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
+    return jsonOutput_({ok: true, data: config});
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function saveEvent_(event) {
