@@ -107,3 +107,5 @@
 .clear-reports-warning{color:#9a3f3f!important;font-size:12px!important}
 .dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 @media(max-width:600px){.report-actions{align-items:stretch;flex-direction:column}.report-actions button{width:100%}.dialog-actions{flex-direction:column-reverse}.dialog-actions button{width:100%}}
+.guestbook-toolbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+@media(max-width:600px){.guestbook-toolbar-actions{width:100%;flex-direction:column;align-items:stretch}.guestbook-toolbar-actions button{width:100%}}

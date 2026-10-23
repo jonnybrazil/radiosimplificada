@@ -35,6 +35,7 @@ function doPost(e) {
     if (body.action === 'logout') { if (isValidAdminToken_(submittedToken)) CacheService.getScriptCache().remove('admin:' + submittedToken); return jsonOutput_({ ok: true }); }
     if (body.action === 'restore') return restoreConfig_(body.backup || {}, submittedToken);
     if (body.action === 'clearReports') return clearReports_(body.fields || [], submittedToken);
+    if (body.action === 'clearContactMessages') return clearContactMessages_(submittedToken);
     delete body._adminToken;
     if (!isValidAdminToken_(submittedToken)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
     validateConfig_(body);
@@ -72,6 +73,21 @@ function clearReports_(fields, token) {
     const reports = Array.isArray(config.reports) ? config.reports : [];
     reports.forEach(row => selected.forEach(field => { row[field] = 0; }));
     config.reports = reports;
+    config.version = (Number(config.version) || 0) + 1;
+    DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
+    return jsonOutput_({ok: true, data: config});
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function clearContactMessages_(token) {
+  if (!isValidAdminToken_(token)) throw new Error('Sessão administrativa inválida ou expirada. Abra o painel novamente.');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5000);
+  try {
+    const config = readConfig_();
+    config.contactMessages = [];
     config.version = (Number(config.version) || 0) + 1;
     DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
     return jsonOutput_({ok: true, data: config});
