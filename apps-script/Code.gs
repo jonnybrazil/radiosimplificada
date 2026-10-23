@@ -72,7 +72,13 @@ function clearReports_(fields, token) {
     const config = readConfig_();
     const reports = Array.isArray(config.reports) ? config.reports : [];
     reports.forEach(row => selected.forEach(field => { row[field] = 0; }));
-    config.reports = reports;
+    config.reports = reports.filter(row => {
+      const accesses = Number(row.accesses ?? row.visits ?? 0);
+      const plays = Number(row.plays || 0);
+      const minutes = Number(row.listeningMinutes || 0);
+      const peak = Number(row.peakListeners || 0);
+      return accesses > 0 || plays > 0 || minutes > 0 || peak > 0;
+    });
     config.version = (Number(config.version) || 0) + 1;
     DriveApp.getFileById(CONFIG_FILE_ID).setContent(JSON.stringify(config, null, 2));
     return jsonOutput_({ok: true, data: config});
