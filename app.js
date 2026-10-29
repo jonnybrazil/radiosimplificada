@@ -1,5 +1,5 @@
 (() => {
-  const API_URL='https://script.google.com/macros/s/AKfycbyfRjb9X7H9HsgoR-GoU-ubGOSGgDGqgu4cc5gH85bFrEMP0Lj9v4FDD3KVa_EWa7y6/exec';
+  const API_URL='https://script.google.com/macros/s/AKfycbyyyB4rs9ku6pWFZmmE0srBOulg_S6zosKP1dfyDP-bq9jjVmJht19-RdIjvfhxupOp/exec';
   const CROSSFADE_SECONDS=5;
   const AUDIO_LOAD_TIMEOUT_MS=5000;
   const LONG_PAUSE_MS=3*60*1000;
