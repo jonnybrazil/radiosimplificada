@@ -6,6 +6,7 @@ function doGet(e) {
   const params = (e && e.parameter) || {};
   if (params.admin === '1') return adminGateway_();
   if (params.adminToken && !isValidAdminToken_(params.adminToken)) return jsonOutput_({ ok: false, error: 'Sessão administrativa expirada.' });
+  if (params.active === '1') return jsonOutput_({ ok: true, activeListeners: getActiveListenerCount_(), expiresAfterSeconds: 90 });
   const config = readConfig_();
   if (params.meta === '1') return jsonOutput_({ version: Number(config.version) || 1 });
   return jsonOutput_(config);
@@ -146,6 +147,16 @@ function getActiveListeners_() {
 
 function saveActiveListeners_(active) {
   PropertiesService.getScriptProperties().setProperty('activeListeners', JSON.stringify(active));
+}
+
+function getActiveListenerCount_() {
+  const active = getActiveListeners_();
+  const nowMs = Date.now();
+  Object.keys(active).forEach(id => {
+    if (nowMs - Number(active[id]) > 90000) delete active[id];
+  });
+  saveActiveListeners_(active);
+  return Object.keys(active).length;
 }
 
 function saveContact_(contact) {
