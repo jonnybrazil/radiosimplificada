@@ -45,3 +45,13 @@ body.maintenance footer{width:100%;height:90px;flex:0 0 90px;display:flex;flex-d
 .sponsor-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:34px;row-gap:14px;max-width:none}
 .sponsor-item{min-width:0;border-bottom:0;padding:14px 0}
 @media(max-width:700px){.sponsor-list{grid-template-columns:1fr;column-gap:0;row-gap:18px}.sponsor-item{border-bottom:1px solid #e2e3e4}.sponsor-item:last-child{border-bottom:0}}
+
+/* Mais ouvidas: seleção das três faixas e letra sincronizada */
+.most-played-tabs{display:flex;gap:0;border-bottom:1px solid #d8d9da;margin-bottom:22px}
+.most-played-tab{flex:1;border:0;border-right:1px solid #d8d9da;background:#fff;color:var(--muted);padding:13px 10px;font:700 12px "Lato",Arial,sans-serif;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.most-played-tab:last-child{border-right:0}
+.most-played-tab:hover,.most-played-tab.is-selected{color:var(--accent)}
+.lyrics-display{min-height:150px;display:grid;place-items:center;padding:24px;color:var(--accent);font:400 clamp(1.5rem,4vw,2.5rem)/1.25 "Lato",Arial,sans-serif;text-align:center}
+.lyrics-enter{animation:lyricsSlideUp .28s ease-out}
+@keyframes lyricsSlideUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.most-played-tab{font-size:10px;padding:12px 6px}.lyrics-display{min-height:180px;padding:20px 12px;font-size:1.5rem}}
