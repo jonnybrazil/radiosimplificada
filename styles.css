@@ -49,7 +49,7 @@ body.maintenance footer{width:100%;height:90px;flex:0 0 90px;display:flex;flex-d
 /* Mais ouvidas: seleção das três faixas e letra sincronizada */
 .most-played-tabs{display:flex;gap:0;margin-bottom:22px}
 .most-played-tab{position:relative;flex:1;border:0;background:#fff;color:var(--muted);padding:13px 10px;font:700 12px "Lato",Arial,sans-serif;cursor:pointer;white-space:nowrap;overflow:visible;text-overflow:ellipsis}
-.most-played-tab:not(:last-child)::after{content:'::';position:absolute;right:-9px;color:var(--muted);pointer-events:none}
+.most-played-tab:not(:last-child)::after{content:' :: ';position:absolute;right:-13px;color:var(--muted);pointer-events:none}
 .most-played-tab:hover,.most-played-tab.is-selected{color:var(--accent)}
 .lyrics-display{min-height:150px;display:grid;place-items:center;padding:24px;color:var(--accent);font:400 clamp(1.5rem,4vw,2.5rem)/1.25 "Lato",Arial,sans-serif;text-align:center}
 .lyrics-enter{animation:lyricsSlideUp .28s ease-out}
